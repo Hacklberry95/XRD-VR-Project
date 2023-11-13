@@ -1,12 +1,5 @@
-using System.Collections;
-
-using System.Collections.Generic;
-
 using UnityEngine;
-
 using UnityEngine.XR.Interaction.Toolkit;
-
-
 
 public class XRGrabInteractableTwoAttached : XRGrabInteractable
 
@@ -17,9 +10,6 @@ public class XRGrabInteractableTwoAttached : XRGrabInteractable
 
     public override Transform GetAttachTransform(IXRInteractor interactor)
     {
-
-        Debug.Log("GetAttachTransform");
-
         Transform i_attachTransform = null;
 
         if (interactor.transform.CompareTag("Left Hand"))
