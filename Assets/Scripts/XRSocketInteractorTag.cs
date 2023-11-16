@@ -6,10 +6,8 @@ public class XRSocketInteractorTag : XRSocketInteractor
 {
     public string targetTag;
 
-    public override bool CanSelect(XRBaseInteractable interactable)
+    public override bool CanSelect(IXRSelectInteractable interactable)
     {
-
-
-        return base.CanSelect(interactable) && interactable.CompareTag(targetTag);
+        return base.CanSelect(interactable) && interactable.transform.CompareTag(targetTag);
     }
 }
