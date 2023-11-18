@@ -14,12 +14,10 @@ public class XRGrabInteractableTwoAttached : XRGrabInteractable
 
         if (interactor.transform.CompareTag("Left Hand"))
         {
-            Debug.Log("Left");
             i_attachTransform = leftAttachedTransform;
         }
         if (interactor.transform.CompareTag("Right Hand"))
         {
-            Debug.Log("Right");
             i_attachTransform = rightAttachedTransform;
         }
         return i_attachTransform != null ? i_attachTransform : base.GetAttachTransform(interactor);

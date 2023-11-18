@@ -21,6 +21,11 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
 
+    [SerializeField] XRGrabInteractable interactable;
+    [SerializeField] Transform raycastOrigin;
+    [SerializeField] LayerMask targetLayer;
+
+
     public XRBaseInteractor socketInteractor;
     public Magazine magazine;
     public bool hasSlide = true;
@@ -45,7 +50,8 @@ public class SimpleShoot : MonoBehaviour
         public void PullTheTrigger()
     {
         if(magazine && magazine.numberOfBullets > 0 && hasSlide)
-        { 
+        {
+        FireRaycastIntoScene();
         gunAnimator.SetTrigger("Fire");
         }
         else
@@ -68,6 +74,15 @@ public class SimpleShoot : MonoBehaviour
     {
         hasSlide = true;
         source.PlayOneShot(reload);
+    }
+    private void FireRaycastIntoScene()
+    {
+        RaycastHit hit;
+
+        if(Physics.Raycast(raycastOrigin.position, raycastOrigin.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, targetLayer))
+        {
+            Debug.Log("Target Hit");
+        }
     }
 
 
