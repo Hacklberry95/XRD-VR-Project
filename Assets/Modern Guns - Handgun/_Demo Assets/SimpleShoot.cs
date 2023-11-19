@@ -21,19 +21,24 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
 
+    [Header("Raycast Settings")]
     [SerializeField] XRGrabInteractable interactable;
     [SerializeField] Transform raycastOrigin;
     [SerializeField] LayerMask targetLayer;
 
-
+    [Header("Magazine")]
     public XRBaseInteractor socketInteractor;
     public Magazine magazine;
     public bool hasSlide = true;
 
+    [Header("Audio Settings")]
     public AudioSource source;
     public AudioClip fireSound;
     public AudioClip reload;
     public AudioClip emptyMagazine;
+
+    [Header("Target Hit Graphic")]
+    [SerializeField] GameObject hitGraphic;
 
     void Start()
     {
@@ -51,14 +56,21 @@ public class SimpleShoot : MonoBehaviour
     {
         if(magazine && magazine.numberOfBullets > 0 && hasSlide)
         {
-        FireRaycastIntoScene();
-        gunAnimator.SetTrigger("Fire");
+            gunAnimator.SetTrigger("Fire");
+            FireRaycastIntoScene();
+            
         }
         else
         {
             source.PlayOneShot(emptyMagazine);
         }
     }
+
+    private void CreateHitGraphicOnTarget(Vector3 hitLocation)
+    {
+        GameObject hitMarker = Instantiate(hitGraphic, hitLocation, Quaternion.identity);
+    }
+
     public void AddMagazine(SelectEnterEventArgs args)
     {
         magazine = args.interactableObject.transform.GetComponent<Magazine>();
@@ -78,10 +90,23 @@ public class SimpleShoot : MonoBehaviour
     private void FireRaycastIntoScene()
     {
         RaycastHit hit;
-
-        if(Physics.Raycast(raycastOrigin.position, raycastOrigin.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, targetLayer))
+        if (Physics.Raycast(raycastOrigin.position, raycastOrigin.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, targetLayer))
         {
-            Debug.Log("Target Hit");
+            if(hit.transform.GetComponent<ITargetInterface>() != null)
+            {
+                Debug.Log("Target Hit!");
+
+                hit.transform.GetComponent<ITargetInterface>().TargetShot();
+                if(!GameManager.Instance.ShouldCreateHitGraphic)
+                {
+                    return;
+                }
+                CreateHitGraphicOnTarget(hit.point);
+            }
+            else
+            {
+                Debug.Log("Not inheriting from interface");
+            }
         }
     }
 
