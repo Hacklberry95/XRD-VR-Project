@@ -44,30 +44,33 @@ public class SimpleShoot : MonoBehaviour
     {
         if (barrelLocation == null)
             barrelLocation = transform;
-
+        Debug.Log(barrelLocation);
         if (gunAnimator == null)
             gunAnimator = GetComponentInChildren<Animator>();
+        Debug.Log(gunAnimator);
 
         socketInteractor.selectEntered.AddListener(AddMagazine);
         socketInteractor.selectExited.AddListener(RemoveMagazine);
     }
 
-        public void PullTheTrigger()
-    {
-        if(magazine && magazine.numberOfBullets > 0 && hasSlide)
+    public void PullTheTrigger()
+     {
+        if (magazine && magazine.numberOfBullets > 0 && hasSlide)
         {
-            gunAnimator.SetTrigger("Fire");
-            FireRaycastIntoScene();
-            
+        Debug.Log("TriggerPulled");
+        gunAnimator.SetTrigger("Fire");
+        FireRaycastIntoScene();
+
         }
         else
         {
-            source.PlayOneShot(emptyMagazine);
+        source.PlayOneShot(emptyMagazine);
         }
-    }
+     }
 
     private void CreateHitGraphicOnTarget(Vector3 hitLocation)
     {
+        Debug.Log("created hit graphic");
         GameObject hitMarker = Instantiate(hitGraphic, hitLocation, Quaternion.identity);
     }
 
@@ -79,11 +82,13 @@ public class SimpleShoot : MonoBehaviour
     }
     public void RemoveMagazine(SelectExitEventArgs args)
     {
+        Debug.Log("Magazine removed");
         magazine = null;
         source.PlayOneShot(reload);
     }
     public void Slide()
     {
+        Debug.Log("Slider activated");
         hasSlide = true;
         source.PlayOneShot(reload);
     }

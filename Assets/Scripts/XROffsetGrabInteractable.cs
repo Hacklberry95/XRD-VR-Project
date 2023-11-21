@@ -6,10 +6,8 @@ public class XROffsetGrabInteractable : XRGrabInteractable
     private Vector3 initialAttachLocalPos;
     private Quaternion initialAttachLocalRot;
 
-    // Start is called before the first frame update
     void Start()
     {
-        //Create attach point
         if (!attachTransform)
         {
             GameObject grab = new GameObject("Grab Pivot");

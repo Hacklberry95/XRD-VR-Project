@@ -29,29 +29,34 @@ public class GameManager : MonoBehaviour
     public bool ShouldCreateHitGraphic { get { return shouldCreateHitGraphic; } }
     public float Score { get { return score; } }
 
-    [Header("UI")]
-    public Button startGameButton;
+    [Header("Game Menu")]
+    public Button startAndEndGameButton;
     [SerializeField] TextMeshProUGUI uiText;
     public Canvas canvas;
+    [SerializeField] TextMeshProUGUI scoreText;
 
     [Header("Timer")]
     public TimerController timerController;
+    public Canvas timerCanvas;
 
     private void Start()
     {
-        startGameButton.onClick.AddListener(StartGameWithDelay);
+        startAndEndGameButton.onClick.AddListener(StartGameWithDelay);
     }
     public void StartGameWithDelay()
     {
+        Debug.Log("Game Started");
         StartCoroutine(GameStartWithDelay());
     }
 
 
     private IEnumerator GameStartWithDelay()
     {
-        startGameButton.gameObject.SetActive(false);
+        score = 0;
+        scoreText.text = "";
+        startAndEndGameButton.gameObject.SetActive(false);
         uiText.text = "GET READY";
-        uiText.color = Color.red;
+        uiText.color = Color.green;
         yield return new WaitForSeconds(2f);
         uiText.text = "3";
         yield return new WaitForSeconds(1f);
@@ -62,20 +67,29 @@ public class GameManager : MonoBehaviour
         uiText.text = "GO!";
         Debug.Log("Game Started");
         canvas.gameObject.SetActive(false);
-
+        timerCanvas.gameObject.SetActive(true);
 
         timerController.StartTimer();
-
 
         shouldCreateHitGraphic = true;
     }
     public void PlayerScored(float targetValue)
     {
-        score = score + targetValue;
+        score += targetValue;
+        Debug.Log(score);
     }
-    //public void GameStart()
-    //{
-    //    Debug.Log("Game Started");
-    //    shouldCreateHitGraphic = true;
-    //}
+
+    public void OnTimerEnd()
+    {
+        Debug.Log("Timer Ended");
+        timerCanvas.gameObject.SetActive(false);
+        timerController.ResetTimer();
+
+        canvas.gameObject.SetActive(true);
+        uiText.text = "GAME OVER";
+        scoreText.text = "Your score: " + score;
+        scoreText.color = Color.green;
+        startAndEndGameButton.gameObject.SetActive(true);
+        //startAndEndGameButton.GetComponentInChildren<Text>().text = "TRY AGAIN";
+    }
 }

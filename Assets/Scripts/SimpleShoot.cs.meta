@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 6be84e4d7829855419c06b94e56bd135
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - bulletPrefab: {instanceID: 0}
+  - casingPrefab: {instanceID: 0}
+  - muzzleFlashPrefab: {instanceID: 0}
+  - gunAnimator: {instanceID: 0}
+  - barrelLocation: {instanceID: 0}
+  - casingExitLocation: {instanceID: 0}
+  - interactable: {instanceID: 0}
+  - raycastOrigin: {instanceID: 0}
+  - socketInteractor: {instanceID: 0}
+  - magazine: {instanceID: 0}
+  - source: {instanceID: 0}
+  - fireSound: {instanceID: 0}
+  - reload: {instanceID: 0}
+  - emptyMagazine: {instanceID: 0}
+  - hitGraphic: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

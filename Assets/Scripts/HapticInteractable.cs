@@ -28,11 +28,13 @@ public class Haptic
 public class HapticInteractable : MonoBehaviour
 {
     public Haptic hapticOnActivated;
-    // Start is called before the first frame update
     void Start()
     {
         XRBaseInteractable interactable = GetComponent<XRBaseInteractable>();
+
+        if(hapticOnActivated != null && interactable != null) { 
         interactable.activated.AddListener(hapticOnActivated.TriggerHaptic);
+        }
     }
 
 }

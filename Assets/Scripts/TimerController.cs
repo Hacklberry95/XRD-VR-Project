@@ -8,15 +8,21 @@ public class TimerController : MonoBehaviour
     [SerializeField] float gameTime;
     [SerializeField] Image timerImage;
     float maxGameTime;
+    private bool timerActive = false;
 
     private void Awake() => maxGameTime = gameTime;
     public void StartTimer()
     {
-        StartCoroutine(UpdateTimer());
+        if (!timerActive)
+        {
+            StartCoroutine(UpdateTimer());
+        }
     }
 
     private IEnumerator UpdateTimer()
     {
+        timerActive = true;
+
         while (gameTime > 0)
         {
             gameTime -= Time.deltaTime;
@@ -27,9 +33,14 @@ public class TimerController : MonoBehaviour
 
             yield return null;
         }
-
-        // Timer is done, perform any actions you need to when the timer is finished
-        Debug.Log("Timer Done!");
+        GameManager.Instance.OnTimerEnd();
+        timerActive = false;
     }
-
+    public void ResetTimer()
+    {
+        StopAllCoroutines();
+        gameTime = maxGameTime;
+        timerImage.fillAmount = 1f;
+        timerActive = false;
+    }
 }
